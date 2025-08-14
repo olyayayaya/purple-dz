@@ -111,9 +111,9 @@ sort.Float64s(numbers)
 	case "med":
 		length := len(numbers) % 2
 		if length == 0 {
-			result = float64( (len(numbers) + 1)/ 2)
+			result = (numbers[len(numbers)/2-1] + numbers[len(numbers)/2]) / 2
 		} else {
-			result = float64( len(numbers) / 2 +  (len(numbers) / 2 + 1) / 2)
+			result = numbers[len(numbers)/2]
 		}
 
 	}
