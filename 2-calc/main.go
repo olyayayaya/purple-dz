@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -93,17 +94,18 @@ return operation, numbers, nil
 
 func calculation (operation string, numbers []float64) float64{
 var result float64
+sort.Float64s(numbers)
 
 	switch operation {
-	case "avg": 
-		for _, value := range numbers {
-			result += value
-		}
+	case "avg":
+    for _, value := range numbers {
+        result += value
+    }
+    result /= float64(len(numbers))
 
 	case "sum":
-		for i, value := range numbers {
+		for _, value := range numbers {
 			result += value
-			result /= float64(i)
 		}
 
 	case "med":
