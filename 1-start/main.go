@@ -7,6 +7,15 @@ import (
 )
 
 func main(){
+valuta := map[string]float64 {
+"usdInrub" : 79.70,
+"usdIneur" : 0.86,
+"rubInusd" : 0.013,
+"rubIneur" : 0.011,
+"eurInusd" : 1.17,
+"eurInrub" : 92.91,
+}
+
 fmt.Println("Конвертер валют") 
 	for {
 		valuta1, money, valuta2, err := readingUsersField()
@@ -14,7 +23,7 @@ fmt.Println("Конвертер валют")
 			fmt.Println(err)
 			continue
 		}
-		raschet(valuta1, money, valuta2)
+		raschet(valuta1, money, valuta2, valuta)
 		break
 	}
 
@@ -68,22 +77,28 @@ switch valuta1 {
 return valuta1, money, valuta2, nil
 }
 
-func raschet(valuta1 string, money float64, valuta2 string) {
+func raschet(valuta1 string, money float64, valuta2 string, valuta map[string]float64) {
 var result float64
 
-if valuta1 == "usd" && valuta2 == "rub" {
-	result = money * 79.70
-} else if valuta1 == "usd" && valuta2 == "eur" {
-	result = money * 0.86
-} else if valuta1 == "rub" && valuta2 == "usd" {
-	result = money * 0.013
-} else if valuta1 == "rub" && valuta2 == "eur" {
-	result = money * 0.011
-} else if valuta1 == "eur" && valuta2 == "usd" {
-	result = money * 1.17
-} else if valuta1 == "eur" && valuta2 == "rub" {
-	result = money * 92.91
+value, ok := valuta[valuta1 + "In" + valuta2]
+
+if ok {
+result = money * value
 }
+
+// if valuta1 == "usd" && valuta2 == "rub" {
+// 	result = money * 79.70
+// } else if valuta1 == "usd" && valuta2 == "eur" {
+// 	result = money * 0.86
+// } else if valuta1 == "rub" && valuta2 == "usd" {
+// 	result = money * 0.013
+// } else if valuta1 == "rub" && valuta2 == "eur" {
+// 	result = money * 0.011
+// } else if valuta1 == "eur" && valuta2 == "usd" {
+// 	result = money * 1.17
+// } else if valuta1 == "eur" && valuta2 == "rub" {
+// 	result = money * 92.91
+// }
 
 output := fmt.Sprintf("результат конвертации: %.3f", result)
 fmt.Println(output)
