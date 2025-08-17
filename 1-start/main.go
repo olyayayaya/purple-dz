@@ -23,7 +23,7 @@ fmt.Println("Конвертер валют")
 			fmt.Println(err)
 			continue
 		}
-		raschet(valuta1, money, valuta2, valuta)
+		raschet(valuta1, money, valuta2, &valuta)
 		break
 	}
 
@@ -77,10 +77,10 @@ switch valuta1 {
 return valuta1, money, valuta2, nil
 }
 
-func raschet(valuta1 string, money float64, valuta2 string, valuta map[string]float64) {
+func raschet(valuta1 string, money float64, valuta2 string, valuta *map[string]float64) {
 var result float64
 
-value, ok := valuta[valuta1 + "In" + valuta2]
+value, ok := (*valuta)[valuta1 + "In" + valuta2]
 
 if ok {
 result = money * value
