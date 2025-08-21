@@ -12,7 +12,7 @@ type bin struct {
 }
 
 type binList struct {
-	bins string
+	bins []*bin
 }
 
 func newBin (id string, private bool, name string) (*bin) {
@@ -26,7 +26,7 @@ func newBin (id string, private bool, name string) (*bin) {
 	return newBin
 }
 
-func newbinList (bins string) (*binList) {
+func newbinList (bins []*bin) (*binList) {
 newbinList := &binList{
 	bins: bins,
 }
