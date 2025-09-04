@@ -9,7 +9,7 @@ import (
 )
 
 type Storage interface {
-	Write(*bins.BinList,string)(error)
+	Write(*bins.BinList,string)
 	Read()(*bins.BinList)
 }
 
@@ -21,7 +21,7 @@ func NewJsonStorage(db bins.Db) *JsonStorage {
 	return &JsonStorage{db: db}
 }
 
-func (s *JsonStorage) WriteFile(content *bins.BinList, name string) {
+func (s *JsonStorage) Write(content *bins.BinList, name string) {
 jsonData, err := json.Marshal(content)
 if err != nil {
 	fmt.Println(err)
@@ -42,7 +42,7 @@ _, err = file.Write(jsonData)
 }
 
 
-func (s *JsonStorage) ReadFile() *bins.BinList {
+func (s *JsonStorage) Read() *bins.BinList {
 		file, err := s.db.Read()
 	if err != nil {	
 		return &bins.BinList {
