@@ -2,15 +2,26 @@ package storage
 
 import (
 	"3-struct/bins"
-	"3-struct/file"
 	"encoding/json"
 	"fmt"
 	"os"
 	"time"
 )
 
+type Storage interface {
+	Write(*bins.BinList,string)(error)
+	Read()(*bins.BinList)
+}
 
-func WriteFile(content *bins.BinList, name string) {
+type JsonStorage struct {
+	db bins.Db
+}
+
+func NewJsonStorage(db bins.Db) *JsonStorage {
+	return &JsonStorage{db: db}
+}
+
+func (s *JsonStorage) WriteFile(content *bins.BinList, name string) {
 jsonData, err := json.Marshal(content)
 if err != nil {
 	fmt.Println(err)
@@ -31,11 +42,11 @@ _, err = file.Write(jsonData)
 }
 
 
-func ReadFile(name string) *bins.BinList {
-		file, err := file.ReadFile(name)
+func (s *JsonStorage) ReadFile() *bins.BinList {
+		file, err := s.db.Read()
 	if err != nil {	
 		return &bins.BinList {
-		Bins: []*bins.Bin{}, 
+		Bins: []bins.Bin{}, 
 		UpdatedAt: time.Now(),
 	}
 }
@@ -45,7 +56,7 @@ err = json.Unmarshal(file, &binlist)
 	if err != nil {	
 		fmt.Println(err.Error())
 		return &bins.BinList {
-		Bins: []*bins.Bin{}, 
+		Bins: []bins.Bin{}, 
 		UpdatedAt: time.Now(),
 	}
 	}
