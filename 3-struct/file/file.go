@@ -6,8 +6,18 @@ import (
 	"path/filepath"
 )
 
-func ReadFile(fileName string) ([]byte, error) {
-	data, err := os.ReadFile(fileName)
+type JsonDb struct {
+	Filename string
+}
+
+func NewJsonDb(name string) *JsonDb {
+	return &JsonDb{
+		Filename: name,
+	}
+}
+
+func (db *JsonDb) Read() ([]byte, error) {
+	data, err := os.ReadFile(db.Filename)
 	if err != nil {
 	fmt.Println(err)
 	return nil, err
@@ -15,6 +25,6 @@ func ReadFile(fileName string) ([]byte, error) {
 	return data, nil
 }
 
-func CheckFileExtension(fileName string) (bool){
- 	return filepath.Ext(fileName) == ".json"
+func (db *JsonDb) CheckFileExtension() (bool){
+ 	return filepath.Ext(db.Filename) == ".json"
 }
