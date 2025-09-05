@@ -9,6 +9,12 @@ import (
 	"strings"
 )
 
+var menu = map[string]func([]float64)float64{
+	"avg": calcAvg,
+	"sum": calcSum,
+	"med": calcMed,
+}
+
 func main(){
 	fmt.Println("operations") 
 	operation, numbers, err := readingUsersField()
@@ -17,9 +23,12 @@ func main(){
 	fmt.Println(err)
 	}
 
-	result := calculation(operation, numbers)
-	fmt.Println("результат:", result)
+	// result := calculation(operation, numbers)
+	// fmt.Println("результат:", result)
 
+	calculationFunc := menu[operation]
+	result := calculationFunc(numbers)
+	fmt.Println("результат:", result)
 }
 
 // func readingUsersField() () {
@@ -89,34 +98,64 @@ func readingUsersField() (string, []float64, error){
         numbers = append(numbers, num)
     }
 
+sort.Float64s(numbers)
+
 return operation, numbers, nil
 }
 
-func calculation (operation string, numbers []float64) float64{
-var result float64
-sort.Float64s(numbers)
+// func calculation (operation string, numbers []float64) float64{
+// var result float64
 
-	switch operation {
-	case "avg":
-    for _, value := range numbers {
+// 	switch operation {
+// 	case "avg":
+//     for _, value := range numbers {
+//         result += value
+//     }
+//     result /= float64(len(numbers))
+
+// 	case "sum":
+// 		for _, value := range numbers {
+// 			result += value
+// 		}
+
+// 	case "med":
+// 		length := len(numbers) % 2
+// 		if length == 0 {
+// 			result = (numbers[len(numbers)/2-1] + numbers[len(numbers)/2]) / 2
+// 		} else {
+// 			result = numbers[len(numbers)/2]
+// 		}
+
+// 	}
+
+// 	return result
+// }
+
+
+func calcAvg(numbers []float64) float64 {
+	var result float64
+	    for _, value := range numbers {
         result += value
     }
     result /= float64(len(numbers))
+	return result
+}
 
-	case "sum":
-		for _, value := range numbers {
+func calcSum(numbers []float64) float64 {
+	var result float64
+			for _, value := range numbers {
 			result += value
 		}
+	return result
+}
 
-	case "med":
-		length := len(numbers) % 2
+func calcMed(numbers []float64) float64 {
+	var result float64
+			length := len(numbers) % 2
 		if length == 0 {
 			result = (numbers[len(numbers)/2-1] + numbers[len(numbers)/2]) / 2
 		} else {
 			result = numbers[len(numbers)/2]
 		}
-
-	}
-
 	return result
 }
